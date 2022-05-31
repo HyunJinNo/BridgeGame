@@ -66,7 +66,7 @@ public final class GameView extends JPanel {
                         cells.add(cell);
                         label = new JLabel();
                         label.setIcon(new ImageIcon("src/resources/bridge.png"));
-                        cell = new Cell(x + 80, y, "Bridge", new String[] { "L", "R" }, label);
+                        cell = new Cell(x + 68, y, "Bridge", new String[] { "L", "R" }, label);
                         break;
                     case "H":
                         // Hammer
@@ -92,39 +92,39 @@ public final class GameView extends JPanel {
                 if (data.length >= 2) {
                     switch (data[data.length - 1]) {
                         case "U":
-                            if (y < 80) {
+                            if (y < 68) {
                                 for (Cell value : cells) {
-                                    value.setY(value.getY() + 80);
+                                    value.setY(value.getY() + 68);
                                 }
                             } else {
-                                y -= 80;
+                                y -= 68;
                             }
                             break;
                         case "D":
-                            if (y > 820) {
+                            if (y > 832) {
                                 for (Cell value : cells) {
-                                    value.setY(value.getY() - 80);
+                                    value.setY(value.getY() - 68);
                                 }
                             } else {
-                                y += 80;
+                                y += 68;
                             }
                             break;
                         case "L":
-                            if (x < 80) {
+                            if (x < 68) {
                                 for (Cell value : cells) {
-                                    value.setX(value.getX() + 80);
+                                    value.setX(value.getX() + 68);
                                 }
                             } else {
-                                x -= 80;
+                                x -= 68;
                             }
                             break;
                         case "R":
-                            if (x > 1420) {
+                            if (x > 1432) {
                                 for (Cell value : cells) {
-                                    value.setX(value.getX() - 80);
+                                    value.setX(value.getX() - 68);
                                 }
                             } else {
-                                x += 80;
+                                x += 68;
                             }
                             break;
                         default:
@@ -139,7 +139,7 @@ public final class GameView extends JPanel {
 
         for (Cell cell : cells) {
             JLabel label = cell.getImage();
-            label.setBounds(cell.getX(), cell.getY(), 80, 80);
+            label.setBounds(cell.getX(), cell.getY(), 68, 68);
             add(label);
         }
     }
