@@ -2,6 +2,8 @@ package bridgeGame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -137,10 +139,25 @@ public final class GameView extends JPanel {
             }
         }
 
+        int[][] pos = {
+                { cells.get(0).getX() + 2, cells.get(0).getY() + 2 },
+                { cells.get(0).getX() + 36, cells.get(0).getY() + 2 },
+                { cells.get(0).getX() + 2, cells.get(0).getY() + 36 },
+                { cells.get(0).getX() + 36, cells.get(0).getY() + 36 }
+        };
+
+        for (int i = 0; i < players.length; i++) {
+            players[i].setX(pos[i][0]);
+            players[i].setY(pos[i][1]);
+            JLabel image = players[i].getImage();
+            image.setBounds(players[i].getX(), players[i].getY(), 30, 30);
+            add(image);
+        }
+
         for (Cell cell : cells) {
-            JLabel label = cell.getImage();
-            label.setBounds(cell.getX(), cell.getY(), 68, 68);
-            add(label);
+            JLabel image = cell.getImage();
+            image.setBounds(cell.getX(), cell.getY(), 68, 68);
+            add(image);
         }
     }
 }

@@ -42,7 +42,9 @@ public final class Controller {
                 } else if (num.equals("2") || num.equals("3") || num.equals("4")) {
                     players = new Player[Integer.parseInt(num)];
                     for (int i = 0; i < players.length; i++) {
-                        players[i] = new Player();
+                        JLabel image = new JLabel();
+                        image.setIcon(new ImageIcon("src/resources/p" + (i + 1) + ".png"));
+                        players[i] = new Player(image);
                     }
                     cardLayout.show(panel, "gameView");
                     gameView.init(players, filename);
