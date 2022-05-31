@@ -2,8 +2,6 @@ package bridgeGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
@@ -15,6 +13,7 @@ public final class GameView extends JPanel {
 
     public GameView() {
         cells = new ArrayList<Cell>();
+
         setLayout(null);
         setBackground(Color.WHITE);
         setFocusable(true);
@@ -38,8 +37,7 @@ public final class GameView extends JPanel {
 
         while (true) {
             try {
-                String line = br.readLine();
-                String[] data = line.split(" ");
+                String[] data = br.readLine().split(" ");
                 JLabel label = new JLabel();
                 Cell cell;
 
@@ -146,6 +144,22 @@ public final class GameView extends JPanel {
                 { cells.get(0).getX() + 36, cells.get(0).getY() + 36 }
         };
 
+        Font font = new Font("Default", Font.BOLD, 16);
+        JLabel[] labels = new JLabel[players.length];
+        for (int i = 0; i < labels.length; i++) {
+            labels[i] = new JLabel("P" + (i + 1) + ":");
+            labels[i].setBounds(1350, (i * 60 + 10), 50, 50);
+            labels[i].setFont(font);
+            add(labels[i]);
+        }
+
+        JLabel[] cards = new JLabel[players.length];
+        for (int i = 0; i < cards.length; i++) {
+            cards[i] = new JLabel(new ImageIcon("src/resources/card.png"));
+            cards[i].setBounds(1400, (i * 60) + 10, 50, 50);
+            add(cards[i]);
+        }
+
         for (int i = 0; i < players.length; i++) {
             players[i].setX(pos[i][0]);
             players[i].setY(pos[i][1]);
@@ -159,5 +173,9 @@ public final class GameView extends JPanel {
             image.setBounds(cell.getX(), cell.getY(), 68, 68);
             add(image);
         }
+
+        JLabel background = new JLabel(new ImageIcon("src/resources/background.png"));
+        background.setBounds(0, 0, 1500, 900);
+        add(background);
     }
 }

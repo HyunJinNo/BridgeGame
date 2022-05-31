@@ -4,7 +4,6 @@ import javax.swing.*;
 
 public class Card {
     private int num;
-    private static final ImageIcon cardImage = new ImageIcon("src/resources/card");
 
     public Card() {
         num = 0;
