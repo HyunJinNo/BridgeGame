@@ -7,12 +7,14 @@ public final class Player {
     private int y;
     private int score;
     private final JLabel image;
+    private final Card card;
 
     public Player(JLabel image) {
         x = 0;
         y = 0;
         score = 0;
         this.image = image;
+        card = new Card();
     }
 
     public int getX() {
@@ -29,6 +31,10 @@ public final class Player {
 
     public JLabel getImage() {
         return image;
+    }
+
+    public Card getCard() {
+        return card;
     }
 
     public void setX(int x) {

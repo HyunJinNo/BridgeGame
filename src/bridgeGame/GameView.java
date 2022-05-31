@@ -144,19 +144,25 @@ public final class GameView extends JPanel {
                 { cells.get(0).getX() + 36, cells.get(0).getY() + 36 }
         };
 
-        Font font = new Font("Default", Font.BOLD, 16);
+        Font font = new Font("Default", Font.BOLD, 17);
         JLabel[] labels = new JLabel[players.length];
         for (int i = 0; i < labels.length; i++) {
-            labels[i] = new JLabel("P" + (i + 1) + ":");
-            labels[i].setBounds(1350, (i * 60 + 10), 50, 50);
+            labels[i] = new JLabel("PLAYER" + (i + 1) + ":");
+            labels[i].setBounds(1320, (i * 60 + 10), 100, 50);
             labels[i].setFont(font);
             add(labels[i]);
+        }
+
+        for (int i = 0; i < players.length; i++) {
+            JLabel numLabel = players[i].getCard().getNumLabel();
+            numLabel.setBounds(1430, (i * 60) + 10, 50, 50);
+            add(numLabel);
         }
 
         JLabel[] cards = new JLabel[players.length];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new JLabel(new ImageIcon("src/resources/card.png"));
-            cards[i].setBounds(1400, (i * 60) + 10, 50, 50);
+            cards[i].setBounds(1420, (i * 60) + 10, 50, 50);
             add(cards[i]);
         }
 
