@@ -8,6 +8,7 @@ public final class Player {
     private int score;
     private final JLabel image;
     private final Card card;
+    private boolean isActive;
 
     public Player(JLabel image) {
         x = 0;
@@ -15,6 +16,7 @@ public final class Player {
         score = 0;
         this.image = image;
         card = new Card();
+        isActive = true;
     }
 
     public int getX() {
@@ -37,6 +39,10 @@ public final class Player {
         return card;
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public void setX(int x) {
         this.x = x;
     }
@@ -47,5 +53,9 @@ public final class Player {
 
     public void plusScore(int plus) {
         score += plus;
+    }
+
+    public void finish() {
+        isActive = false;
     }
 }

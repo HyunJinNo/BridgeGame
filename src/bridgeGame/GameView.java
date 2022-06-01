@@ -1,29 +1,51 @@
 package bridgeGame;
 
 import javax.swing.*;
+import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 
-public final class GameView extends JPanel {
+public final class GameView extends JPanel implements ActionListener {
     private static final int WIDTH = 1500;
     private static final int HEIGHT = 900;
     private Player[] players;
     private ArrayList<Cell> cells;
+    private Controller controller;
+    private Timer timer;
+    protected JButton[] buttons;
 
     public GameView() {
         cells = new ArrayList<Cell>();
 
+        Font font = new Font("Default", Font.BOLD, 17);
+        buttons = new JButton[2];
+        for (int i = 0; i < buttons.length; i++) {
+            buttons[i] = new JButton();
+            buttons[i].setContentAreaFilled(false);
+            buttons[i].setBorder(new BevelBorder(BevelBorder.RAISED));
+            buttons[i].setForeground(Color.WHITE);
+            buttons[i].setFont(font);
+            add(buttons[i]);
+        }
+
+        buttons[0].setText("Roll");
+        buttons[1].setText("Stay");
+        buttons[0].setBounds(1350, 25, 100, 50);
+        buttons[1].setBounds(1350, 100, 100, 50);
+        buttons[1].setEnabled(false);
+
+
         setLayout(null);
-        setBackground(Color.WHITE);
         setFocusable(true);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
     }
 
-    public void init(Player[] players, String filename) {
+    public void init(Player[] players, String filename, Controller controller) {
         this.players = players;
-        int x = 0;
-        int y = 0;
+        this.controller = controller;
 
         File file = new File(filename);
         BufferedReader br;
@@ -34,6 +56,9 @@ public final class GameView extends JPanel {
             // TODO: return to TitleView
             return;
         }
+
+        int x = 0;
+        int y = 0;
 
         while (true) {
             try {
@@ -148,21 +173,21 @@ public final class GameView extends JPanel {
         JLabel[] labels = new JLabel[players.length];
         for (int i = 0; i < labels.length; i++) {
             labels[i] = new JLabel("PLAYER" + (i + 1) + ":");
-            labels[i].setBounds(1320, (i * 60 + 10), 100, 50);
+            labels[i].setBounds(1320, (i * 60) + 175, 100, 50);
             labels[i].setFont(font);
             add(labels[i]);
         }
 
         for (int i = 0; i < players.length; i++) {
             JLabel numLabel = players[i].getCard().getNumLabel();
-            numLabel.setBounds(1430, (i * 60) + 10, 50, 50);
+            numLabel.setBounds(1430, (i * 60) + 175, 50, 50);
             add(numLabel);
         }
 
         JLabel[] cards = new JLabel[players.length];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new JLabel(new ImageIcon("src/resources/card.png"));
-            cards[i].setBounds(1420, (i * 60) + 10, 50, 50);
+            cards[i].setBounds(1420, (i * 60) + 175, 50, 50);
             add(cards[i]);
         }
 
@@ -183,5 +208,30 @@ public final class GameView extends JPanel {
         JLabel background = new JLabel(new ImageIcon("src/resources/background.png"));
         background.setBounds(0, 0, 1500, 900);
         add(background);
+
+        timer = new Timer(100, this);
+        timer.start();
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        if (controller.getCount() > 0) {
+            for (Player player : players) {
+                JLabel image = player.getImage();
+                image.setBounds(player.getX(), player.getY(), 30, 30);
+
+                JLabel numLabel = player.getCard().getNumLabel();
+                numLabel.setText(String.valueOf(player.getCard().getNum()));
+            }
+        } else {
+            timer.stop();
+            // TODO: GAME OVER
+        }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        repaint();
     }
 }

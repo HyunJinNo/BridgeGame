@@ -31,7 +31,7 @@ public final class TitleView extends JPanel {
 
         titleImage = new JLabel();
         titleImage.setIcon(new ImageIcon("src/resources/title.png"));
-        titleImage.setBounds(0, 0, 1500, 900);
+        titleImage.setBounds(-0, -0, 1500, 900);
         add(titleImage);
 
         setBackground(Color.WHITE);
