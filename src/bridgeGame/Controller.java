@@ -79,6 +79,7 @@ public final class Controller {
             // ROLL
             gameView.buttons[0].addActionListener(e-> {
                 // TODO: Roll
+                System.out.println(gameView.dice.rollDice());
 
                 turn = (turn + 1) % players.length;
                 if (players[turn].isActive()) {

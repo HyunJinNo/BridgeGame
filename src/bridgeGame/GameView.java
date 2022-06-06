@@ -15,10 +15,12 @@ public final class GameView extends JPanel implements ActionListener {
     private ArrayList<Cell> cells;
     private Controller controller;
     private Timer timer;
-    protected JButton[] buttons;
+    protected final JButton[] buttons;
+    protected Dice dice;
 
     public GameView() {
         cells = new ArrayList<Cell>();
+        dice = new Dice();
 
         Font font = new Font("Default", Font.BOLD, 17);
         buttons = new JButton[2];
@@ -168,6 +170,10 @@ public final class GameView extends JPanel implements ActionListener {
                 { cells.get(0).getX() + 2, cells.get(0).getY() + 36 },
                 { cells.get(0).getX() + 36, cells.get(0).getY() + 36 }
         };
+
+        for (int i = 0; i < dice.getImages().length; i++) {
+            add(dice.getImages()[i]);
+        }
 
         Font font = new Font("Default", Font.BOLD, 17);
         JLabel[] labels = new JLabel[players.length];
