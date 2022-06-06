@@ -16,7 +16,8 @@ public final class GameView extends JPanel implements ActionListener {
     private Controller controller;
     private Timer timer;
     protected final JButton[] buttons;
-    protected Dice dice;
+    protected final Dice dice;
+    protected JLabel[] nameLabels;
 
     public GameView() {
         cells = new ArrayList<Cell>();
@@ -38,7 +39,6 @@ public final class GameView extends JPanel implements ActionListener {
         buttons[0].setBounds(1350, 25, 100, 50);
         buttons[1].setBounds(1350, 100, 100, 50);
         buttons[1].setEnabled(false);
-
 
         setLayout(null);
         setFocusable(true);
@@ -171,32 +171,38 @@ public final class GameView extends JPanel implements ActionListener {
                 { cells.get(0).getX() + 36, cells.get(0).getY() + 36 }
         };
 
+        // 주사위 이미지를 출력.
         for (int i = 0; i < dice.getImages().length; i++) {
             add(dice.getImages()[i]);
         }
 
+        // PLAYER 이름을 나타내는 JLabel
         Font font = new Font("Default", Font.BOLD, 17);
-        JLabel[] labels = new JLabel[players.length];
-        for (int i = 0; i < labels.length; i++) {
-            labels[i] = new JLabel("PLAYER" + (i + 1) + ":");
-            labels[i].setBounds(1320, (i * 60) + 175, 100, 50);
-            labels[i].setFont(font);
-            add(labels[i]);
+        nameLabels = new JLabel[players.length];
+        for (int i = 0; i < nameLabels.length; i++) {
+            nameLabels[i] = new JLabel("PLAYER" + (i + 1) + ":");
+            nameLabels[i].setBounds(1320, (i * 60) + 300, 100, 50);
+            nameLabels[i].setFont(font);
+            add(nameLabels[i]);
         }
+        nameLabels[0].setForeground(Color.CYAN);
 
+        // 카드의 수를 나타냄.
         for (int i = 0; i < players.length; i++) {
             JLabel numLabel = players[i].getCard().getNumLabel();
-            numLabel.setBounds(1430, (i * 60) + 175, 50, 50);
+            numLabel.setBounds(1430, (i * 60) + 300, 50, 50);
             add(numLabel);
         }
 
+        // 카드 이미지를 나타냄.
         JLabel[] cards = new JLabel[players.length];
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new JLabel(new ImageIcon("src/resources/card.png"));
-            cards[i].setBounds(1420, (i * 60) + 175, 50, 50);
+            cards[i].setBounds(1420, (i * 60) + 300, 50, 50);
             add(cards[i]);
         }
 
+        // 각 Player 의 위치를 나타냄.
         for (int i = 0; i < players.length; i++) {
             players[i].setX(pos[i][0]);
             players[i].setY(pos[i][1]);
@@ -205,12 +211,14 @@ public final class GameView extends JPanel implements ActionListener {
             add(image);
         }
 
+        // Cell 을 표시.
         for (Cell cell : cells) {
             JLabel image = cell.getImage();
             image.setBounds(cell.getX(), cell.getY(), 68, 68);
             add(image);
         }
 
+        // background 이미지 출력.
         JLabel background = new JLabel(new ImageIcon("src/resources/background.png"));
         background.setBounds(0, 0, 1500, 900);
         add(background);

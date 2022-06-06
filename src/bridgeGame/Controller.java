@@ -79,22 +79,55 @@ public final class Controller {
             // ROLL
             gameView.buttons[0].addActionListener(e-> {
                 // TODO: Roll
-                System.out.println(gameView.dice.rollDice());
-
-                turn = (turn + 1) % players.length;
-                if (players[turn].isActive()) {
-                    gameView.buttons[0].setEnabled(true);
-                    gameView.buttons[1].setEnabled(players[turn].getCard().getNum() != 0);
+                for (JLabel image : gameView.dice.getImages()) {
+                    image.setVisible(false);
                 }
 
+                int num = gameView.dice.rollDice();
+                System.out.println(num);
+
+
+
+                // Turn 을 다음 Player 에게 넘김.
+                do {
+                    turn = (turn + 1) % players.length;
+                } while (!players[turn].isActive());
+
+                for (int i = 0; i < players.length; i++) {
+                    if (players[i].isActive()) {
+                        gameView.nameLabels[i].setForeground(Color.BLACK);
+                    } else {
+                        gameView.nameLabels[i].setForeground(Color.GRAY);
+                    }
+                }
+                gameView.nameLabels[turn].setForeground(Color.CYAN);
+
+                gameView.buttons[0].setEnabled(true);
+                gameView.buttons[1].setEnabled(players[turn].getCard().getNum() != 0);
             });
 
             // STAY
             gameView.buttons[1].addActionListener(e-> {
+                for (JLabel image : gameView.dice.getImages()) {
+                    image.setVisible(false);
+                }
+
+                // 카드 1장을 반납함.
                 players[turn].getCard().returnOneCard();
+
+                // Turn 을 다음 Player 에게 넘김.
                 do {
                     turn = (turn + 1) % players.length;
                 } while (!players[turn].isActive());
+
+                for (int i = 0; i < players.length; i++) {
+                    if (players[i].isActive()) {
+                        gameView.nameLabels[i].setForeground(Color.BLACK);
+                    } else {
+                        gameView.nameLabels[i].setForeground(Color.GRAY);
+                    }
+                }
+                gameView.nameLabels[turn].setForeground(Color.CYAN);
 
                 gameView.buttons[0].setEnabled(true);
                 gameView.buttons[1].setEnabled(players[turn].getCard().getNum() != 0);
