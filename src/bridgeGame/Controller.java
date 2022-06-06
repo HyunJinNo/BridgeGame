@@ -165,9 +165,12 @@ public final class Controller {
                                         }
                                         break;
                                 }
+
+                                if (gameView.map[y / 68][x / 68].getType().equals("End")) {
+                                    break;
+                                }
                             }
 
-                            // TODO: move
                             for (int i = 0; i < input.length(); i++) {
                                 switch (input.charAt(i)) {
                                     case 'U': case 'u':
@@ -198,7 +201,20 @@ public final class Controller {
                                         players[turn].plusScore(1);
                                         break;
                                     case "End":
-                                        break;
+                                        players[turn].finish();
+                                        switch (players.length - count) {
+                                            case 1:
+                                                players[turn].plusScore(7);
+                                                break;
+                                            case 2:
+                                                players[turn].plusScore(3);
+                                                break;
+                                            case 3:
+                                                players[turn].plusScore(1);
+                                                break;
+                                        }
+                                        count--;
+                                        break Outter;
                                     default:
                                         break;
                                 }
@@ -265,9 +281,5 @@ public final class Controller {
 
     public int getCount() {
         return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
     }
 }
