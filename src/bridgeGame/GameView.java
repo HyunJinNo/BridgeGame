@@ -12,7 +12,8 @@ public final class GameView extends JPanel implements ActionListener {
     private static final int WIDTH = 1500;
     private static final int HEIGHT = 900;
     private Player[] players;
-    private ArrayList<Cell> cells;
+    private final ArrayList<Cell> cells;
+    protected Cell[][] map;
     private Controller controller;
     private Timer timer;
     protected final JButton[] buttons;
@@ -61,6 +62,8 @@ public final class GameView extends JPanel implements ActionListener {
 
         int x = 0;
         int y = 0;
+        int maxX = -1;
+        int maxY = -1;
 
         while (true) {
             try {
@@ -158,10 +161,27 @@ public final class GameView extends JPanel implements ActionListener {
                             // TODO: Wrong Input
                             return;
                     }
+
+                    if (x > maxX)
+                        maxX = x;
+                    if (y > maxY)
+                        maxY = y;
                 }
             } catch (Exception e) {
                 break;
             }
+        }
+
+        map = new Cell[(maxY / 68) + 1][(maxX / 68) + 1];
+        for (int i = 0; i < map.length; i++) {
+            map[i] = new Cell[(maxY / 68) + 1];
+            for (int j = 0; j < map[0].length; j++) {
+                map[i][j] = null;
+            }
+        }
+
+        for (Cell value : cells) {
+            map[value.getY() / 68][value.getX() / 68] = value;
         }
 
         int[][] pos = {
