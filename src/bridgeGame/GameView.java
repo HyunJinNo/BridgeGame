@@ -15,7 +15,6 @@ public final class GameView extends JPanel implements ActionListener {
     private final ArrayList<Cell> cells;
     protected Cell[][] map;
     private Controller controller;
-    private Timer timer;
     protected final JButton[] buttons;
     protected final Dice dice;
     protected JLabel[] nameLabels;
@@ -92,7 +91,7 @@ public final class GameView extends JPanel implements ActionListener {
                     case "B":
                         // Bridge_cell
                         label.setIcon(new ImageIcon("src/resources/bridge_cell.png"));
-                        cell = new Cell(x, y, "Cell", new String[] { data[1], data[2] }, label);
+                        cell = new Cell(x, y, "Bridge Cell", new String[] { data[1], data[2] }, label);
                         cells.add(cell);
                         label = new JLabel();
                         label.setIcon(new ImageIcon("src/resources/bridge.png"));
@@ -242,25 +241,25 @@ public final class GameView extends JPanel implements ActionListener {
         JLabel background = new JLabel(new ImageIcon("src/resources/background.png"));
         background.setBounds(0, 0, 1500, 900);
         add(background);
-
-        timer = new Timer(100, this);
-        timer.start();
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        if (controller.getCount() > 0) {
-            for (Player player : players) {
-                JLabel image = player.getImage();
-                image.setBounds(player.getX(), player.getY(), 30, 30);
+        for (Player player : players) {
+            JLabel image = player.getImage();
+            image.setBounds(player.getX(), player.getY(), 30, 30);
 
-                JLabel numLabel = player.getCard().getNumLabel();
-                numLabel.setText(String.valueOf(player.getCard().getNum()));
+            JLabel numLabel = player.getCard().getNumLabel();
+            numLabel.setText(String.valueOf(player.getCard().getNum()));
+        }
+
+        if (controller.getCount() == 0) {
+            for (JButton button : buttons) {
+                button.setEnabled(false);
             }
-        } else {
-            timer.stop();
             // TODO: GAME OVER
+            // TODO: 게임이 종료됬을 때 각 플레이어 점수 표시
         }
     }
 

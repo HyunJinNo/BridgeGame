@@ -12,7 +12,7 @@ public final class Controller {
     private JPanel panel;
     private CardLayout cardLayout;
     private Player[] players;
-    private String filename = "src/bridgeGame/default.map";
+    private String filename = "src/bridgeGame/another.map";  // 수정할 것.
     private int count;
     private int turn;
 
@@ -82,6 +82,7 @@ public final class Controller {
                 }
 
                 int num = gameView.dice.rollDice() - players[turn].getCard().getNum();
+
                 if (num > 0) {
                     Outter: while (true) {
                         String input = JOptionPane.showInputDialog(new JFrame(),
@@ -92,6 +93,7 @@ public final class Controller {
                         }
 
                         if (input.length() == num) {
+                            // U, D, L, R 또는 u, d, l, r의 조합을 입력했는지 확인.
                             switch (input.charAt(0)) {
                                 case 'U': case 'D': case 'L': case 'R':
                                     for (int i = 1; i < input.length(); i++) {
@@ -126,51 +128,109 @@ public final class Controller {
                             int x = players[turn].getX();
                             int y = players[turn].getY();
 
-                            for (int i = 0; i < input.length(); i++) {
-                                switch (input.charAt(i)) {
-                                    case 'U': case 'u':
-                                        if (y >= 68 && gameView.map[(y - 68) / 68][x / 68] != null) {
-                                            y -= 68;
-                                        } else {
-                                            JOptionPane.showMessageDialog(new JFrame(),
-                                                    "이동할 수 없는 방향 정보가 포함되어 있습니다.");
-                                            continue Outter;
-                                        }
-                                        break;
-                                    case 'D': case 'd':
-                                        if (y <= 832 && gameView.map[(y + 68) / 68][x / 68] != null) {
-                                            y += 68;
-                                        } else {
-                                            JOptionPane.showMessageDialog(new JFrame(),
-                                                    "이동할 수 없는 방향 정보가 포함되어 있습니다.");
-                                            continue Outter;
-                                        }
-                                        break;
-                                    case 'L': case 'l':
-                                        if (x >= 68 && gameView.map[y / 68][(x - 68) / 68] != null) {
-                                            x -= 68;
-                                        } else {
-                                            JOptionPane.showMessageDialog(new JFrame(),
-                                                    "이동할 수 없는 방향 정보가 포함되어 있습니다.");
-                                            continue Outter;
-                                        }
-                                        break;
-                                    case 'R': case 'r':
-                                        if (x <= 1432) {
-                                            x += 68;
-                                        } else {
-                                            JOptionPane.showMessageDialog(new JFrame(),
-                                                    "이동할 수 없는 방향 정보가 포함되어 있습니다.");
-                                            continue Outter;
-                                        }
-                                        break;
-                                }
+                            if (count <= players.length - 2) {
+                                // 어떤 플레이어가  END 를 넘었을 경우 보드에 있는
+                                // 나머지 플레이어들은 더 이상 뒤로 이동 불가능.
+                                for (int i = 0; i < input.length(); i++) {
+                                    switch (gameView.map[y / 68][x / 68].getType()) {
+                                        case "Start":
+                                            if (!input.substring(i, i + 1).equalsIgnoreCase(gameView.map[y / 68][x / 68].getDirections()[0])) {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        case "Saw":
+                                        case "Cell":
+                                        case "Hammer":
+                                        case "Philips Driver":
+                                        case "Bridge":
+                                            if (!input.substring(i, i + 1).equalsIgnoreCase(gameView.map[y / 68][x / 68].getDirections()[1])) {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        case "Bridge Cell":
+                                            if (!input.substring(i, i + 1).equalsIgnoreCase(gameView.map[y / 68][x / 68].getDirections()[1])
+                                                    && !input.substring(i, i + 1).equalsIgnoreCase("R")) {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
 
-                                if (gameView.map[y / 68][x / 68].getType().equals("End")) {
-                                    break;
+                                    switch (input.charAt(i)) {
+                                        case 'U': case 'u':
+                                            y -= 68;
+                                            break;
+                                        case 'D': case 'd':
+                                            y += 68;
+                                            break;
+                                        case 'L': case 'l':
+                                            x -= 68;
+                                            break;
+                                        case 'R': case 'r':
+                                            x += 68;
+                                            break;
+                                    }
+
+                                    if (gameView.map[y / 68][x / 68].getType().equals("End")) {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                // 아직 아무도 END 를 넘지 않았을 경우.
+                                for (int i = 0; i < input.length(); i++) {
+                                    switch (input.charAt(i)) {
+                                        case 'U': case 'u':
+                                            if (y >= 68 && gameView.map[(y - 68) / 68][x / 68] != null) {
+                                                y -= 68;
+                                            } else {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        case 'D': case 'd':
+                                            if (y <= 832 && gameView.map[(y + 68) / 68][x / 68] != null) {
+                                                y += 68;
+                                            } else {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        case 'L': case 'l':
+                                            if (x >= 68 && gameView.map[y / 68][(x - 68) / 68] != null) {
+                                                x -= 68;
+                                            } else {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                        case 'R': case 'r':
+                                            if (x <= 1432) {
+                                                x += 68;
+                                            } else {
+                                                JOptionPane.showMessageDialog(new JFrame(),
+                                                        "이동할 수 없는 방향 정보가 포함되어 있습니다.");
+                                                continue Outter;
+                                            }
+                                            break;
+                                    }
+
+                                    if (gameView.map[y / 68][x / 68].getType().equals("End")) {
+                                        break;
+                                    }
                                 }
                             }
 
+                            // Move
                             for (int i = 0; i < input.length(); i++) {
                                 switch (input.charAt(i)) {
                                     case 'U': case 'u':
@@ -187,6 +247,7 @@ public final class Controller {
                                         break;
                                 }
 
+                                // Player 가 도구 카드를 집거나 End 에 도달했을 때.
                                 switch (gameView.map[players[turn].getY() / 68][players[turn].getX() / 68].getType()) {
                                     case "Saw":
                                         players[turn].plusScore(3);
