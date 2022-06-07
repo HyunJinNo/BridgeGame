@@ -14,6 +14,8 @@ public final class TitleView extends JPanel {
     // TitleView 의 2개의 버튼: PLAY, LOAD
     JButton[] buttons;
 
+    JLabel filenameLabel;
+
     public TitleView() {
         setLayout(null);
 
@@ -32,6 +34,14 @@ public final class TitleView extends JPanel {
         buttons[1].setText("LOAD");
         buttons[0].setBounds(1250, 675, 200, 75);
         buttons[1].setBounds(1250, 775, 200, 75);
+
+        // 로드할 지도 데이터 파일명을 표시.
+
+        filenameLabel = new JLabel("File: default.map");
+        filenameLabel.setBounds(25, 0, 500, 100);
+        filenameLabel.setForeground(Color.WHITE);
+        filenameLabel.setFont(font);
+        add(filenameLabel);
 
         // TitleView 의 background 이미지 설정.
         JLabel titleImage = new JLabel(new ImageIcon("src/resources/title.png"));

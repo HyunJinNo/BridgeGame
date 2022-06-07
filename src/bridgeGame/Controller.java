@@ -90,8 +90,11 @@ public final class Controller {
                 // 파일 로드를 취소했으면 로드할 파일을 변경하지 않음.
                 int returnValue = jfc.showOpenDialog(null);
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    System.out.println(jfc.getSelectedFile().getPath());
-                    filename = jfc.getSelectedFile().getPath();
+                    filename = jfc.getSelectedFile().getAbsolutePath();
+                    String[] temp = filename.split("\\\\");
+                    String path = temp[temp.length - 1];
+                    titleView.filenameLabel.setText("File: " + path);
+
                 }
             });
 
