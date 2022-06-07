@@ -253,14 +253,6 @@ public final class GameView extends JPanel implements ActionListener {
             JLabel numLabel = player.getCard().getNumLabel();
             numLabel.setText(String.valueOf(player.getCard().getNum()));
         }
-
-        if (controller.getCount() == 0) {
-            for (JButton button : buttons) {
-                button.setEnabled(false);
-            }
-            // TODO: GAME OVER
-            // TODO: 게임이 종료됬을 때 각 플레이어 점수 표시
-        }
     }
 
     @Override

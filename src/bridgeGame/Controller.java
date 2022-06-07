@@ -307,6 +307,21 @@ public final class Controller {
 
                 gameView.buttons[0].setEnabled(true);
                 gameView.buttons[1].setEnabled(players[turn].getCard().getNum() != 0);
+
+                // 게임이 종료되었을 때 각 플레이어의 점수 표시.
+                if (count == 0) {
+                    for (JButton button : gameView.buttons) {
+                        button.setEnabled(false);
+                    }
+
+                    StringBuilder sb = new StringBuilder(1000000);
+                    sb.append("Scores: \n");
+                    for (int i = 0; i < players.length; i++) {
+                        sb.append("Player").append(i + 1).append(": ").append(players[i].getScore()).append("\n");
+                    }
+
+                    JOptionPane.showMessageDialog(new JFrame(), sb.toString());
+                }
             });
 
             // STAY
