@@ -214,7 +214,7 @@ public final class Controller {
                                             }
                                             break;
                                         case 'R': case 'r':
-                                            if (x <= 1432) {
+                                            if (x <= 1432 && gameView.map[y / 68][(x + 68) / 68] != null) {
                                                 x += 68;
                                             } else {
                                                 JOptionPane.showMessageDialog(new JFrame(),
