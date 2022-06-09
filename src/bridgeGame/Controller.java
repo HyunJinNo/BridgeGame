@@ -261,6 +261,7 @@ public final class Controller {
                                             break;
                                     }
 
+                                    // 플레이어가 End 에 도달하도록 입력받은 경우 검사 종료.
                                     if (gameView.map[y / 68][x / 68].getType().equals("End")) {
                                         break;
                                     }
